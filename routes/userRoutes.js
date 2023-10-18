@@ -3,6 +3,9 @@ const router = express.Router()
 const User = require('../dbmodels/userModel')
 
 
+router.get('/login', (req,res) => {
+    res.render('login', {error: ""})
+})
 
 router.post('/login', async(req,res)=> {
     try {
@@ -15,6 +18,9 @@ router.post('/login', async(req,res)=> {
     }
 })
 
+router.get('/create-account', (req,res) => {
+    res.render('signup', {error: ""})
+})
 
 router.post('/create-account', async(req,res)=> {
     try {
