@@ -8,16 +8,38 @@ const Post = require('../dbmodels/postModel')
 const Comment = require('../dbmodels/commentModel')
 const User = require('../dbmodels/userModel')
 const Image = require('../dbmodels/imageModel')
-// Multer to handle uploading images
 
+// ShowAllPosts
+router.get('/show-all-posts', async (req, res) => {
+    const posts = await Post.find({})
+    const images = await Image.find({})
+    console.log('posty')
+    console.log(posts)
+    
+    res.render('showPosts', {posts:posts, images:images})
+})
 
+// router.get('/show-all-posts',isAuth.authenticateToken,  async(req, res) => {
+//     console.log(req.user)
+//     if(req.user){
+//         const currentUser = await User.findById({_id: req.user})
+//         if(currentUser){
+//             res.render('showAllPosts', {
+//                 user:currentUser.name, 
+//                 id: currentUser._id})
+
+//         }
+//     }
+//     else{
+//         res.redirect('/')
+//     }
+// })
 
 
 
 // Create Post
 router.post('/create-post', async (req, res) => {
-    console.log("CSRF token from form:", req.body._csrf);
-    console.log("Generated CSRF token:", req.csrfToken());
+ 
     if (!req.file) {
         return res.send('No file uploaded');
     }
@@ -29,11 +51,13 @@ router.post('/create-post', async (req, res) => {
         postTitle:req.body.postTitle,
         postDescription:req.body.postDescription,
         author:req.body.author,
-        image:req.file.buffer,
+        image:newImage._id,
         likes:0
     })
+    console.log('saving to db')
     await post.save()
-
+    console.log("Done")
+    res.send('post created')
 })
 
 router.get('/create-post',isAuth.authenticateToken,  async(req, res) => {
@@ -56,8 +80,19 @@ router.get('/create-post',isAuth.authenticateToken,  async(req, res) => {
 
 // Delete Post
 
+router.delete('/delete-post', isAuth.authenticateToken, async (req, res) =>{
+    const del = await Post.findByIdAndDelete({_id: req.body._id})
+    if(del){
+        await Image.findByIdAndDelete({_id: del.image})
+        res.redirect('/')
+    }
+    else{
+        console.log("Error")
+    }
 
-// ShowAllPosts
+})
+
+
 
 
 // ShowPost
