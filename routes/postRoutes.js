@@ -10,7 +10,7 @@ const User = require('../dbmodels/userModel')
 const Image = require('../dbmodels/imageModel')
 
 // ShowAllPosts
-router.get('/show-all-posts', async (req, res) => {
+router.get('/', async (req, res) => {
     const posts = await Post.find({})
     const images = await Image.find({})
     const comments = await Comment.find({})
@@ -84,21 +84,26 @@ router.post('/update-post', isAuth.authenticateToken, async (req, res) => {
     catch(err){
         console.log("ERROR")
     }
-    res.redirect('/show-all-posts')
+    res.redirect('/')
 })
 
 
 
 // Delete Post
 
-router.delete('/delete-post', isAuth.authenticateToken, async (req, res) =>{
-    const del = await Post.findByIdAndDelete({_id: req.body._id})
+router.post('/post-delete', isAuth.authenticateToken, async (req, res) =>{
+    try{ 
+        const del = await Post.findByIdAndDelete({_id: req.body.postId})
+    console.log(del)
     if(del){
         await Image.findByIdAndDelete({_id: del.image})
         res.redirect('/')
     }
     else{
         console.log("Error")
+    }}
+    catch(err){
+        console.log("ERROR")
     }
 
 })
@@ -117,7 +122,7 @@ router.post('/create-comment', isAuth.authenticateToken, async (req, res) => {
             postId:post._id
         })
     await comment.save()
-    res.redirect('/show-all-posts')
+    res.redirect('/')
 })
 
 
@@ -125,14 +130,20 @@ router.post('/create-comment', isAuth.authenticateToken, async (req, res) => {
 
 
 // DeleteComment
-router.delete('/delete-comment', isAuth.authenticateToken, async (req, res) => {
-    const del = await Comment.findByIdAndDelete({_id: req.body._id})
-    if(del){
-        res.redirect('/show-all-posts')
+router.post('/comment-delete', isAuth.authenticateToken, async (req, res) => {
+    try{
+        const del = await Comment.findByIdAndDelete({_id: req.body.commentId})
+        if(del){
+            res.redirect('/')
+        }
+        else{
+            console.log("Error")
+        }
     }
-    else{
-        console.log("Error")
+    catch(err){
+        console.log("ERROR")
     }
+    
 })
 
 module.exports = router

@@ -2,18 +2,17 @@
 <%- include('./includes/navbar.ejs') %>
 
 <section class="main-content">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-10">
+    <div class="container-fluid" style="max-width: 600px">
+
+            <div>
                 <% if (posts.length > 0) { %>
                     <% posts.forEach(post => { %>
-                        <div class="card">
+                        <div class="card align-middle">
                             <a href="/show-post/<%= post._id %>" class="btn btn-primary">
-                                <div class="card-body">
+                                <div class="card-body" style="margin-top: 20px;">
                                     <h5 class="card-title"><%= post.postTitle %></h5>
                                      
                                     <div>
-                                    <!-- <div style="overflow: hidden; white-space: nowrap; max-height: 80px; text-overflow: clip;"> -->
                                         <% images.forEach(image => { %>
                                         
                                             <% if (post.image.toString() == image._id.toString()) { %>
@@ -36,7 +35,7 @@
                                                             <p><%= user.username %></p>
                                                             <% if (user._id == isAuth) { %>
                                                                 <form action="/comment-delete" method="POST" class="login-form">
-                                                                    <input type="hidden" value="<%= post._id %>" name="postId">
+                                                                    <input type="hidden" value="<%= comment._id %>" name="commentId">
                                                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                                                     <button class="submit-button" type="submit">Delete</button>
                                                                 </form> 
@@ -55,7 +54,7 @@
                                         <form action="/post-delete" method="POST" class="login-form">
                                             <input type="hidden" value="<%= post._id %>" name="postId">
                                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                            <button class="submit-button" type="submit">Delete</button>
+                                            <button class="warning" type="submit">DELETE THE POST</button>
                                         </form> 
                                     <% } %>  
                                   
@@ -79,10 +78,8 @@
                     <h1>No Posts</h1>
                 <% } %>
             </div>   
-            <div class="col-lg-2">
-                <h1>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis eos debitis dolor. Tempore, officiis libero maxime possimus ut itaque nostrum aliquid officia exercitationem quibusdam voluptates quae illum numquam reprehenderit quam.</h1>
-            </div>
-        </div>
+            
+    
     </div>
 </section>
 

@@ -12,18 +12,19 @@
             <h2>Post comments</h2>
             <% comments.forEach(comment => { %>
               <hr />
-              <p class="card-text"><%= comment.commentText %></p>
-              <p class="card-text">YO ?</p>
+              <p class="card-text">Comment: <%= comment.commentText %></p>
               <% users.forEach(user => { %>
                 <% if (comment.author.toString() == user._id.toString()) { %>
-                  <p><%= user.username %></p>
+                  <div>
+                  <p>User: <%= user.username %></p>
                   <% if (user._id == isAuth) { %>
                       <form action="/comment-delete" method="POST" class="login-form">
-                          <input type="hidden" value="<%= post._id %>" name="postId">
+                          <input type="hidden" value="<%= comment._id %>" name="commentId">
                           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                           <button class="submit-button" type="submit">Delete</button>
                       </form> 
                   <% } %> 
+                </div>
                 <% } %> 
               <% }); %> <!-- Closing the users loop -->
             
