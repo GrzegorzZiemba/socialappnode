@@ -67,6 +67,23 @@ router.get('/create-post',isAuth.authenticateToken,  async(req, res) => {
     }
 })
 
+// UpdatePost
+router.post('/update-post', isAuth.authenticateToken, async (req, res) => {
+    console.log("Hello")    
+    try{
+
+        const post = await Post.findById({_id: req.body.postId})
+        await post.updateOne({
+            postTitle: req.body.postTitle || post.postTitle,
+            postDescription: req.body.postDescription || post.postDescription
+        })
+    }
+    catch(err){
+        console.log("ERROR")
+    }
+    res.redirect('/show-all-posts')
+})
+
 
 
 // Delete Post
@@ -89,7 +106,6 @@ router.delete('/delete-post', isAuth.authenticateToken, async (req, res) =>{
 
 
 
-// UpdatePost
 
 
 // CreateComment
