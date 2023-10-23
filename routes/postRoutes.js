@@ -15,26 +15,17 @@ router.get('/show-all-posts', async (req, res) => {
     const images = await Image.find({})
     console.log('posty')
     console.log(posts)
-    
+
     res.render('showPosts', {posts:posts, images:images})
 })
 
-// router.get('/show-all-posts',isAuth.authenticateToken,  async(req, res) => {
-//     console.log(req.user)
-//     if(req.user){
-//         const currentUser = await User.findById({_id: req.user})
-//         if(currentUser){
-//             res.render('showAllPosts', {
-//                 user:currentUser.name, 
-//                 id: currentUser._id})
-
-//         }
-//     }
-//     else{
-//         res.redirect('/')
-//     }
-// })
-
+// ShowPost
+router.get('/show-post/:_id', async (req, res) => {
+    const post = await Post.findById({_id: req.params._id})
+    const image = await Image.find({_id: post.image})
+    const comments = await Comment.find({_id: post.comments})
+    res.render('showPost', {post:post, image:image, comments:comments})
+})
 
 
 // Create Post
@@ -95,7 +86,7 @@ router.delete('/delete-post', isAuth.authenticateToken, async (req, res) =>{
 
 
 
-// ShowPost
+
 
 
 // UpdatePost

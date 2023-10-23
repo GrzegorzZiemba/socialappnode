@@ -8,7 +8,7 @@
                 <% if (posts.length > 0) { %>
                     <% posts.forEach(post => { %>
                         <div class="card">
-                            <a href="/post/<%= post._id %>" class="btn btn-primary">
+                            <a href="/show-post/<%= post._id %>" class="btn btn-primary">
                                 <div class="card-body">
                                     <h5 class="card-title"><%= post.postTitle %></h5>
                                      
