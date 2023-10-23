@@ -13,18 +13,21 @@ const Image = require('../dbmodels/imageModel')
 router.get('/show-all-posts', async (req, res) => {
     const posts = await Post.find({})
     const images = await Image.find({})
-    console.log('posty')
-    console.log(posts)
+    const comments = await Comment.find({})
+    const users = await User.find({})
 
-    res.render('showPosts', {posts:posts, images:images})
+
+    res.render('showPosts', {posts:posts, images:images, comments:comments, users:users})
 })
 
 // ShowPost
 router.get('/show-post/:_id', async (req, res) => {
     const post = await Post.findById({_id: req.params._id})
     const image = await Image.find({_id: post.image})
-    const comments = await Comment.find({_id: post.comments})
-    res.render('showPost', {post:post, image:image, comments:comments})
+    const comments = await Comment.find({postId: post._id})
+    const users = await User.find({})
+    console.log(comments)
+    res.render('showPost', {post:post, image:image, comments:comments, users:users})
 })
 
 
@@ -103,15 +106,33 @@ router.delete('/delete-post', isAuth.authenticateToken, async (req, res) =>{
 
 
 
-
-
-
-
-
 // CreateComment
+
+router.post('/create-comment', isAuth.authenticateToken, async (req, res) => {
+    const post = await Post.findById({_id: req.body.postId})
+    
+    const comment = new Comment({
+            commentText:req.body.comment,
+            author:req.body.author,
+            postId:post._id
+        })
+    await comment.save()
+    res.redirect('/show-all-posts')
+})
+
+
+
 
 
 // DeleteComment
-
+router.delete('/delete-comment', isAuth.authenticateToken, async (req, res) => {
+    const del = await Comment.findByIdAndDelete({_id: req.body._id})
+    if(del){
+        res.redirect('/show-all-posts')
+    }
+    else{
+        console.log("Error")
+    }
+})
 
 module.exports = router

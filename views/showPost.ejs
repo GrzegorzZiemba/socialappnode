@@ -9,6 +9,27 @@
             <% if (image) { %>
             <img class="card-img-top" src="data:image/jpeg;base64,<%= image[0].img.data.toString('base64') %>" alt="Hero" />
             <% } %>
+            <h2>Post comments</h2>
+            <% comments.forEach(comment => { %>
+              <hr />
+              <p class="card-text"><%= comment.commentText %></p>
+              <p class="card-text">YO ?</p>
+              <% users.forEach(user => { %>
+                <% if (comment.author.toString() == user._id.toString()) { %>
+                  <p><%= user.username %></p>
+                  <% if (user._id == isAuth) { %>
+                      <form action="/comment-delete" method="POST" class="login-form">
+                          <input type="hidden" value="<%= post._id %>" name="postId">
+                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                          <button class="submit-button" type="submit">Delete</button>
+                      </form> 
+                  <% } %> 
+                <% } %> 
+              <% }); %> <!-- Closing the users loop -->
+            
+             
+              <hr />
+            <% }); %> <!-- Closing the comments loop -->
             <% if (post.author == isAuth) { %>
               
               <form action="/update-post" method="POST" class="login-form">

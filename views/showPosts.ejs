@@ -23,18 +23,55 @@
                                             <% } %> 
                                             <% }) %>
                                             <p class="card-text"><%- post.postDescription %></p>
+                                            <h2>Post comments</h2>
+
+
+                                            <% comments.slice(0, 3).forEach(comment => { %>
+                                        
+                                                <% if (post._id.toString() == comment.postId.toString()) { %>
+                                                    <hr />
+
+                                                    <% users.forEach(user => { %>
+                                                        <% if (comment.author.toString() == user._id.toString()) { %>
+                                                            <p><%= user.username %></p>
+                                                            <% if (user._id == isAuth) { %>
+                                                                <form action="/comment-delete" method="POST" class="login-form">
+                                                                    <input type="hidden" value="<%= post._id %>" name="postId">
+                                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                                    <button class="submit-button" type="submit">Delete</button>
+                                                                </form> 
+                                                            <% } %> 
+                                                        <% } %> 
+                                                        <% }) %>
+                                                    <p class="card-text"><%= comment.commentText %></p>
+                                                    <p class="card-text">YO ?</p>
+                                                   
+                                                    <hr />
+                                                <% } %> 
+                                                <% }) %>
 
                                     </div>
                                     <% if (post.author == isAuth) { %>
-                                        <p>Action</p>
                                         <form action="/post-delete" method="POST" class="login-form">
                                             <input type="hidden" value="<%= post._id %>" name="postId">
                                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                             <button class="submit-button" type="submit">Delete</button>
                                         </form> 
                                     <% } %>  
+                                  
+
                                 </div>
                             </a>
+                            <% if (isAuth)  { %>
+                                <form action="/create-comment" method="POST" class="login-form">
+                                    <label for="comment"> Comment</label>
+                                    <input type="text" id="comment" name="comment" required>
+                                    <input type="hidden" value="<%= post._id %>" name="postId">
+                                    <input type="hidden" name="author" value="<%= isAuth %>" required>
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <button class="submit-button" type="submit">Create Comment</button>
+                                </form> 
+                                <% } %>  
                         </div>
                         <% }) %>  
                     
