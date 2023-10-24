@@ -35,26 +35,7 @@ app.use(userRoutes)
 app.use(postRoutes)
 
 
-// app.use((err, req, res, next) => {
-//     if (err.code === 'EBADCSRFTOKEN') {
-//         // CSRF token error
-//         return res.status(403).send('Invalid CSRF token');
-//     }
-//     // handle other errors
-//     next(err);
-// });
 
-
-
-
-
-
-
-
-app.get('/', (req,res) => {
-    console.log("first")
-    return res.send("hello")
-})
 
 
 app.listen(3000, () => {

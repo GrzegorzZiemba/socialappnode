@@ -24,7 +24,6 @@ router.get('/create-account', (req,res) => {
 
 router.post('/create-account', async(req,res)=> {
     try {
-        console.log(req.body)
         const user = req.body
         const userExists = await User.find({email: user.email})
         if(userExists.length === 0){
@@ -42,7 +41,6 @@ router.post('/create-account', async(req,res)=> {
             res.render('signup' , {error: "User Exists"})
         }
     } catch (error) {
-        console.log("Error")
     }
 })
 
