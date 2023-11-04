@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../dbmodels/userModel')
-
+const isAuth = require('../middleware/isAuth') 
 // Authentication and Authorization 
 
 
@@ -56,11 +56,49 @@ router.get('/logout', (req,res)=> {
 
 // User Profile
 
-router.get('/profile', (req,res) => {
-    res.render('profilePage')
+router.get('/profile',isAuth.authenticateToken, async(req,res) => {
+    try {
+        if(req.user){
+            const currentUser = await User.findById({_id: req.user})
+            if(currentUser){
+                res.render('profilePage', {
+                    user: currentUser._id})
+    
+            }
+        }
+    } catch (error) {
+        
+        res.render('error', {message: "Cannot get into profile without loggedin"})
+    }
 })
 
+router.post('/update-profile', isAuth.authenticateToken, async (req, res) => {
+    try{
 
+        const user = await User.findById({_id: req.body.userId})
+        if(req.body.password){
+            if(req.body.password === req.body.password2){
+                user.checkPassword(req.body.oldpassword)
+                await user.updateOne({           
+                    password: req.body.password || user.password
+        
+                })
+            }
+        }
+        await user.updateOne({
+            email: req.body.email || user.email,
+            name: req.body.name || user.name,
+            secondname: req.body.secondname || user.secondName,
+            username: req.body.username || user.username,
+
+        })
+        res.redirect('/')
+    }
+    catch(err){
+        res.render('error', {message: "Cannot update post"}) 
+   }
+   
+})
 
 
 

@@ -35,6 +35,15 @@ userSchema.methods.generateAuthTokens = async function (){
     return token
 }
 
+userSchema.methods.checkPassword = async( pass) => {
+    const user = this
+    const checkPassword = await bcrypt.compare(pass, user.password)
+    if(!checkPassword){
+        throw new Error("Provide correct password!")
+    }
+    return user
+}
+
 userSchema.statics.loginUser = async (email, pass) => {
     const user = await User.findOne({email})
     if(!user){

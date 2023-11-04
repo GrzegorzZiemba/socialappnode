@@ -31,9 +31,9 @@
                   </div>
 
                 <div>
-                  <h2>Password</h2>
+                  <!-- <h2>Password</h2>
                   <label for="oldpassword">Provide Old Password</label>
-                  <input type="oldpassword" id="oldpassword" name="oldpassword" >
+                  <input type="oldpassword" id="oldpassword" name="oldpassword" > -->
 
 
                   <label for="password">Provide new password</label>
@@ -44,6 +44,8 @@
                 
 
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" value="<%= user._id %>" name="userId">
+
                     <button type="submit" class="submit-button">Update Your user</button>
                 </form>
              
