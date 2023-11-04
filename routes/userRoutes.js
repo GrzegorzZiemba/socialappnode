@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const User = require('../dbmodels/userModel')
 
+// Authentication and Authorization 
+
 
 router.get('/login', (req,res) => {
     res.render('login', {error: ""})
@@ -45,10 +47,23 @@ router.post('/create-account', async(req,res)=> {
 })
 
 
-
-
 router.get('/logout', (req,res)=> {
     res.clearCookie('token')
     res.redirect('/')
 })
+
+
+
+// User Profile
+
+router.get('/profile', (req,res) => {
+    res.render('profilePage')
+})
+
+
+
+
+
+
+
 module.exports = router
