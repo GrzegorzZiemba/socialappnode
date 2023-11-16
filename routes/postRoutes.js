@@ -169,7 +169,6 @@ router.post('/comment-delete', isAuth.authenticateToken, async (req, res) => {
 router.get('/my-posts', isAuth.authenticateToken, async(req,res) => {
     try {
         const posts = await Post.find({author: req.user})
-        console.log(posts)
         res.render('myposts', {posts})
     } catch (error) {
         res.render('error', {message: "No posts found :)"})    
@@ -182,8 +181,7 @@ router.get('/chat', isAuth.authenticateToken, async(req,res) => {
     try {
         const user = await User.find({_id: req.user})
         const name = user[0].name
-        console.log(user)
-        console.log(name)
+        
         res.render('chat', {name});
     } catch (error) {
         

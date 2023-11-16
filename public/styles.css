@@ -204,6 +204,55 @@
     border-radius: 50%; /* This makes the avatar rounded */
     margin-bottom: 10px;
   }
+
+
+  #messages {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    max-height: 300px;
+    overflow-y: auto;
+    background-color: #606060; /* Darker Gray */
+    color: #ffffff; /* White */
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#messages li {
+    padding: 5px 10px;
+    border-bottom: 1px solid #808080; /* Slightly lighter gray for separation */
+}
+
+#messages li:last-child {
+    border-bottom: none;
+}
+
+#form {
+    display: flex;
+    margin-top: 20px;
+}
+
+#input {
+    flex-grow: 1;
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+}
+
+.submit-button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    color: #ffffff; /* White */
+    background-color: #808080; /* Primary Gray */
+    cursor: pointer;
+}
+
+.submit-button:hover {
+    background-color: #606060; /* Darker Gray */
+}
+
   
   /* RWD */
   @media screen and (max-width: 991px) {

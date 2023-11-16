@@ -25,14 +25,9 @@ router.get('/create-account', (req,res) => {
 })
 
 router.post('/create-account', async(req,res)=> {
-    console.log('creating')
     try {
         const user = req.body
-        console.log(user)
         const userExists = await User.find({email: user.email})
-        
-        console.log(userExists)
-
         if(userExists.length === 0){
             const account = new User({
                 username: user.username,
@@ -48,7 +43,8 @@ router.post('/create-account', async(req,res)=> {
             res.render('signup' , {error: "User Exists"})
         }
     } catch (error) {
-        console.log(error)
+        res.render('error', {error: "Cannot CREATE"})
+
     }
 })
 

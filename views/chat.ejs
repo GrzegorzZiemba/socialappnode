@@ -1,17 +1,27 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Chat App</title>
-    <link rel="stylesheet" type="text/css" href="/style.css">
-</head>
-<body>
-    <ul id="messages"></ul>
-    <form id="form" action="">
-        <input id="input" autocomplete="off" />
-        <button>Send</button>
-        <input type="hidden" id="username" value="<%= name %>">
-    </form>
+
+
+
+
+<%- include('./includes/main.ejs') %>
+
+    <div class="container-fluid" style="min-width: 400px; max-width:890px">
+
+        <div class="row">
+            <div class="col-lg-10">
+                <ul id="messages"></ul>
+                <form id="form" action="">
+                    <input id="input" autocomplete="off" />
+                    <button>Send</button>
+                    <input type="hidden" id="username" value="<%= name %>">
+                </form>
+            </div>
+        </div>
+            
+    
+    </div>
+        
     <script src="/socket.io/socket.io.js"></script>
     <script src="/javascripts/chat.js"></script>
-</body>
-</html>
+    <%- include('./includes/mainend.ejs') %>
+
+
