@@ -1,0 +1,38 @@
+<%- include('./includes/main.ejs') %>
+
+    <div class="container-fluid" style="min-width: 400px; max-width:890px">
+
+            <div>
+                <% if (posts.length > 0) { %>
+                    <% posts.forEach(post => { %>
+                        <div class="card align-middle">
+                            <a href="/show-post/<%= post._id %>" class="btn btn-primary">
+                                <div class="card-body" style="margin-top: 20px;">
+                                    <h5 class="card-title"><%= post.postTitle %></h5>
+                                     
+                                    
+                                    <% if (post.author == isAuth) { %>
+                                        <form action="/post-delete" method="POST" class="login-form">
+                                            <input type="hidden" value="<%= post._id %>" name="postId">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <button class="warning" type="submit">DELETE THE POST</button>
+                                        </form> 
+                                    <% } %>  
+                                  
+
+                                </div>
+                            </a>
+                           
+                        </div>
+                        <% }) %>  
+                    
+                <% } else { %>
+                    <h1>No Posts</h1>
+                <% } %>
+            </div>   
+            
+    
+    </div>
+    <%- include('./includes/mainend.ejs') %>
+
+

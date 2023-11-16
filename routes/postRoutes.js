@@ -165,4 +165,15 @@ router.post('/comment-delete', isAuth.authenticateToken, async (req, res) => {
     
 })
 
+
+router.get('/my-posts', isAuth.authenticateToken, async(req,res) => {
+    try {
+        const posts = await Post.find({author: req.user})
+        console.log(posts)
+        res.render('myposts', {posts})
+    } catch (error) {
+        
+    }
+})
+
 module.exports = router
