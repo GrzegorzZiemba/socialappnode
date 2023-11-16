@@ -3,6 +3,9 @@ const express = require('express')
 const cookieParser = require('cookie-parser')
 const csrf = require('csurf')
 const multer = require('multer');
+const socketIo = require('socket.io');
+const http = require('http');
+
 // From inside files importing
 const db = require('./db')
 const isAuth = require('./middleware/isAuth')
@@ -16,6 +19,8 @@ const csrfProtection = csrf({ cookie: true })
 db()
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+const server = http.createServer(app);
+const io = socketIo(server);
 // Middlewares
 app.set('view engine', 'ejs')
 app.use(cookieParser())
@@ -34,10 +39,23 @@ app.use(isAuth.authenticateToken, (req,res,next) => {
 app.use(userRoutes)
 app.use(postRoutes)
 
+// Socket.io
+
+io.on('connection', (socket) => {
+    console.log('New client connected');
+
+    socket.on('chat message', (data) => {
+        io.emit('chat message', data);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('Client disconnected');
+    });
+});
 
 
 
 
-app.listen(3000, () => {
+server.listen(3000, () => {
     console.log("Working")
 })
