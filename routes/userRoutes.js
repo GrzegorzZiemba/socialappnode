@@ -25,9 +25,14 @@ router.get('/create-account', (req,res) => {
 })
 
 router.post('/create-account', async(req,res)=> {
+    console.log('creating')
     try {
         const user = req.body
+        console.log(user)
         const userExists = await User.find({email: user.email})
+        
+        console.log(userExists)
+
         if(userExists.length === 0){
             const account = new User({
                 username: user.username,
@@ -43,6 +48,7 @@ router.post('/create-account', async(req,res)=> {
             res.render('signup' , {error: "User Exists"})
         }
     } catch (error) {
+        console.log(error)
     }
 })
 
@@ -85,8 +91,21 @@ router.post('/update-profile', isAuth.authenticateToken, async (req, res) => {
                 })
             }
         }
+
+        if(req.body.email){
+            const findUser = await User.find({email: req.body.email})
+            if(findUser.length > 0){
+                res.render('error', {message: "EMAIL TAKEN"})
+
+            }
+            else{
+                await user.updateOne({           
+                    email: req.body.email || user.email,
+        
+                })
+            }
+        }
         await user.updateOne({
-            email: req.body.email || user.email,
             name: req.body.name || user.name,
             secondname: req.body.secondname || user.secondName,
             username: req.body.username || user.username,

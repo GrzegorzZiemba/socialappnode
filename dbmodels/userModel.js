@@ -10,12 +10,7 @@ const userSchema = new mongoose.Schema({
     name: {type: String, required: true},
     secondName: {type: String, required: true},
     email: {type: String, required: true, unique: true, lowercase: true, validate(value) {if(!validator.isEmail(value)){throw new Error("Provide email addres")}}},
-    password: {type: String, required: true, trim: true, 
-        validate(value) {
-            if(!validator.isStrongPassword(value,
-                { minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1, minSymbols: 1, returnScore: false, pointsPerUnique: 1, pointsPerRepeat: 0.5, pointsForContainingLower: 10, pointsForContainingUpper: 10, pointsForContainingNumber: 10, pointsForContainingSymbol: 10 })){
-                    throw new Error("Provide more secure password")
-                }}},
+    password: {type: String, required: true, trim: true, minLength: 8},
     tokens: {type: String},
     isActive: {type: Boolean, default :true}
 })
