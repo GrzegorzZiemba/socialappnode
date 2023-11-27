@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema({
     secondName: {type: String, required: true},
     email: {type: String, required: true, unique: true, lowercase: true, validate(value) {if(!validator.isEmail(value)){throw new Error("Provide email addres")}}},
     password: {type: String, required: true, trim: true, minLength: 8},
+    friends: [{type: mongoose.Types.ObjectId, ref: "User" }],
     tokens: {type: String},
     isActive: {type: Boolean, default :true}
 })

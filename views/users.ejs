@@ -1,0 +1,25 @@
+<%- include('./includes/main.ejs') %>
+
+<div class="container-fluid" style="min-width: 400px; max-width:890px">
+    <div class="row">
+        <div class="col-lg-10">
+            <% users.forEach(user => { %>
+                <div>
+                    <%= user.username %>
+                    <% if (!currentUser.includes(user._id.toString())) { %>
+                        <form action="/addfriend" method="POST" class="login-form">
+                            <input type="hidden" name="friend" value="<%= id %>" required>
+                            <input type="hidden" name="secondfriend" value="<%= user._id %>" required>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button type="submit" class="submit-button">Add Friend</button>
+                        </form>
+                    <% } else { %>
+                        <p>Already friends</p>
+                    <% } %>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+</div>
+
+<%- include('./includes/mainend.ejs') %>

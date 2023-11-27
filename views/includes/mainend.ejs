@@ -1,7 +1,13 @@
 </section>
-<div class="main-content" style="max-width: 200px">
-    <div class="avatar-list">
-        <h2>Maybe for some ad?</h2>
-        <!-- Add more avatars as needed -->
-    </div>
+<div class="container-fluid" style="max-width:200px">
+        <h2>UserList</h2>
+        <p><%= isAuth %></p>
+        <% commonData.forEach(data => { %>
+            <div class="card-body  ">
+                <p><%= data.username %></p>
+                <p><%= data.name %></p>
+                
+            </div>  
+        <% }) %>
+
 </div>

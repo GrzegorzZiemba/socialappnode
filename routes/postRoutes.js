@@ -57,7 +57,7 @@ router.post('/create-post', async (req, res) => {
             postDescription:req.body.postDescription,
             author:req.body.author,
             image:newImage._id,
-            likes:0
+           
         })
         await post.save()
         res.redirect('/')

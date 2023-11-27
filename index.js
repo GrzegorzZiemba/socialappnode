@@ -5,7 +5,7 @@ const csrf = require('csurf')
 const multer = require('multer');
 const socketIo = require('socket.io');
 const http = require('http');
-
+const User = require('./dbmodels/userModel')
 // From inside files importing
 const db = require('./db')
 const isAuth = require('./middleware/isAuth')
@@ -34,10 +34,18 @@ app.use(isAuth.authenticateToken, (req,res,next) => {
     res.locals.isAuth = req.user
     next()
 })
+app.use(async (req, res, next) => {
+    res.locals.commonData = await User.find({}) ;
+    console.log(req.locals)
+    next();
+  });
 
 // Routes
 app.use(userRoutes)
 app.use(postRoutes)
+
+
+
 
 // Socket.io
 
