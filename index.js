@@ -36,7 +36,6 @@ app.use(isAuth.authenticateToken, (req,res,next) => {
 })
 app.use(async (req, res, next) => {
     res.locals.commonData = await User.find({}) ;
-    console.log(req.locals)
     next();
   });
 

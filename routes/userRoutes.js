@@ -122,7 +122,6 @@ router.get('/users', isAuth.authenticateToken, async (req, res) => {
             const currentUser = await User.findById({_id: req.user})
             if(currentUser){
                 let allUsers = await User.find({})
-                console.log(currentUser._id)
                 const newUsers = allUsers.filter(user => user._id.toString() !== currentUser._id.toString())
                 
                 res.render('users', {
